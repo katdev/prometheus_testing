@@ -5,7 +5,7 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${PWD}/config/prometheus.yml:/etc/prometheus/prometheus.yml
 
   # node_exporter:
   #   image: prom/node-exporter
@@ -20,7 +20,7 @@ services:
     ports:
       - 9115:9115
     volumes:
-      - ${PWD}/blackbox.yml:/etc/blackbox_exporter/config.yml
+      - ${PWD}/config/blackbox.yml:/etc/blackbox_exporter/config.yml
 
   cloudwatch_exporter:
     image: prom/cloudwatch-exporter:cloudwatch_exporter-0.10.0
@@ -28,7 +28,7 @@ services:
     ports:
       - 9106:9106
     volumes:
-      - ${PWD}/cloudwatch_exporter.yml:/config/config.yml
+      - ${PWD}/config/cloudwatch_exporter.yml:/config/config.yml
       - ${HOME}/.aws:/root/.aws
 
 
