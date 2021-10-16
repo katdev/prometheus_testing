@@ -1,0 +1,7 @@
+# https://blog.afoolishmanifesto.com/posts/prometheus-cloudwatch-exporter-examples/
+region: us-east-1
+metrics:
+- aws_namespace: AWS/RDS
+  aws_metric_name: FreeStorageSpace
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_statistics: [Minimum]

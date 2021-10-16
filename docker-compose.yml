@@ -1,0 +1,35 @@
+services:
+  prometheus:
+    image: prom/prometheus:v2.30.0
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  # node_exporter:
+  #   image: prom/node-exporter
+  #   container_name: node_exporter
+  #   ports:
+  #     - 8080:9100
+  #   # command: -inMemory --web.listen-address 127.0.0.1:9100 # this is appended to the entrypoint
+
+  blackbox_exporter:
+    image: prom/blackbox-exporter
+    container_name: blackbox_exporter
+    ports:
+      - 9115:9115
+    volumes:
+      - ${PWD}/blackbox.yml:/etc/blackbox_exporter/config.yml
+
+  cloudwatch_exporter:
+    image: prom/cloudwatch-exporter:cloudwatch_exporter-0.10.0
+    container_name: cloudwatch_exporter
+    ports:
+      - 9106:9106
+    volumes:
+      - ${PWD}/cloudwatch_exporter.yml:/config/config.yml
+      - ${HOME}/.aws:/root/.aws
+
+
+# docker run -d -p 3000:3000 — name grafana grafana/grafana

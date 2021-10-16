@@ -1,0 +1,64 @@
+# my global config
+global:
+  scrape_interval: 15s 
+  evaluation_interval: 15s
+  # scrape_timeout is set to the global default (10s).
+
+# # Alertmanager configuration
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets:
+#           # - alertmanager:9093
+
+# # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+# rule_files:
+#   # - "first_rules.yml"
+#   # - "second_rules.yml"
+
+scrape_configs:
+  # Scrape Prometheus itself
+  # - job_name: "prometheus"
+  #   static_configs:
+  #     - targets: ["localhost:9090"]
+
+  # Blackbox exporter
+  # - job_name: blackbox
+  #   metrics_path: /probe
+  #   params:
+  #     module: [http_2xx]
+  #   static_configs:
+  #     - targets:
+  #       - https://www.robustperception.io/
+  #       - http://prometheus.io/blog
+  #       - https://google.com                        
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       target_label: __param_target
+  #     - source_labels: [__param_target]
+  #       target_label: instance
+  #     - target_label: __address__
+  #       replacement: localhost:9115 # Blackbox exporter.
+
+
+
+  # Cloudwatch exporter
+  - job_name: cloudwatch_exporter
+    metrics_path: /metrics
+    scrape_interval: 30s
+    static_configs:
+      # - targets: ["localhost:9106"]
+      - targets: ["cloudwatch_exporter:9106"] # docker networking and all
+    # ec2_sd_configs:
+    #   - region: us-east-1
+    #     access_key: "${AWS_ENG_ACCESS_KEY_ID}"
+    #     secret_key: "${AWS_ENG_SECRET_ACCESS_KEY}"
+    #     port: 9106
+    #     filters:
+    #       - name: tag:service
+    #         values:
+    #           - prometheus-exporter
+    # relabel_configs:
+    #   - source_labels: [__address__]
+    #     target_label: exporter
+    #     replacement: cloudwatch
