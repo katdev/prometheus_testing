@@ -1,7 +1,77 @@
 # https://blog.afoolishmanifesto.com/posts/prometheus-cloudwatch-exporter-examples/
+aws_tag_select: &tagconfig
+  tag_selections:
+    terraform: ["true"]
+  resource_type_selection: "rds:db"
+  resource_id_dimension: DBInstanceIdentifier
+
 region: us-east-1
 metrics:
+
+# max, avg
+- aws_namespace: AWS/RDS
+  aws_metric_name: CPUUtilization
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_tag_select: *tagconfig
+  aws_statistics: [Maximum,Average]
+  delay_seconds: 5
+
+# - aws_namespace: AWS/RDS
+#   aws_metric_name: ReadLatency
+#   aws_dimensions: [DBInstanceIdentifier]
+#   aws_statistics: [Maximum,Average]
+#   delay_seconds: 5
+
+# - aws_namespace: AWS/RDS
+#   aws_metric_name: WriteLatency
+#   aws_dimensions: [DBInstanceIdentifier]
+#   aws_statistics: [Maximum,Average]
+#   delay_seconds: 5
+
+# - aws_namespace: AWS/RDS
+#   aws_metric_name: ReadIOPS
+#   aws_dimensions: [DBInstanceIdentifier]
+#   aws_statistics: [Maximum,Average]
+#   delay_seconds: 5
+
+# - aws_namespace: AWS/RDS
+#   aws_metric_name: WriteIOPS
+#   aws_dimensions: [DBInstanceIdentifier]
+#   aws_statistics: [Maximum,Average]
+#   delay_seconds: 5
+
+
+# ## sum
+# - aws_namespace: AWS/RDS
+#   aws_metric_name: DatabaseConnections
+#   aws_dimensions: [DBInstanceIdentifier]
+#   aws_statistics: [Sum]
+#   delay_seconds: 5
+
+# ## min,avg
+# - aws_namespace: AWS/RDS
+#   aws_metric_name: FreeableMemory
+#   aws_dimensions: [DBInstanceIdentifier]
+#   aws_statistics: [Minimum,Average]
+#   delay_seconds: 5
+
 - aws_namespace: AWS/RDS
   aws_metric_name: FreeStorageSpace
   aws_dimensions: [DBInstanceIdentifier]
-  aws_statistics: [Minimum]
+  aws_tag_select: *tagconfig
+  aws_statistics: [Minimum,Average]
+  delay_seconds: 5
+
+- aws_namespace: AWS/RDS
+  aws_metric_name: ReadThroughput
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_tag_select: *tagconfig
+  aws_statistics: [Minimum,Average]
+  delay_seconds: 5
+
+- aws_namespace: AWS/RDS
+  aws_metric_name: WriteThroughput
+  aws_dimensions: [DBInstanceIdentifier]
+  aws_tag_select: *tagconfig
+  aws_statistics: [Minimum,Average]
+  delay_seconds: 5
